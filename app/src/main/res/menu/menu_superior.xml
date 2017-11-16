@@ -4,8 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
     <item
+        android:id="@+id/config"
+        android:orderInCategory="1"
+        android:title="@string/configuracion"/>
+    <item
         android:id="@+id/cerrar_sesion"
         android:orderInCategory="1"
         android:title="@string/action_logout"
         android:icon="@drawable/ic_exit_to_app_black_24dp"/>
+
 </menu>

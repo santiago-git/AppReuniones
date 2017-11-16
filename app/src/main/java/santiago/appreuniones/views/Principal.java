@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import santiago.appreuniones.ConfiguracionActivity;
 import santiago.appreuniones.InicioSesion;
 import santiago.appreuniones.R;
 import santiago.appreuniones.dto.Usuario;
@@ -78,6 +80,11 @@ public class Principal extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
+            case R.id.config:
+                Intent iConf = new Intent(this, ConfiguracionActivity.class);
+                startActivity(iConf);
+
+                break;
             case R.id.cerrar_sesion:
                 eliminarSesion();
                 Intent intent = new Intent(this, InicioSesion.class);

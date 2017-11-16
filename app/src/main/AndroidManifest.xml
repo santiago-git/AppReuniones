@@ -55,6 +55,9 @@
             android:label="@string/title_activity_ubicacion" />
         <activity
             android:name=".views.ConfiguracionActivity"
+            android:label="@string/title_activity_configuracion" />
+        <activity
+            android:name=".ConfiguracionActivity"
             android:label="@string/title_activity_configuracion"></activity>
     </application>
 
