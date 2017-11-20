@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 
 public class Constantes {
     private static final String RUTASERVIDOR = "http://192.168.0.25/";
-    //private static final String RUTASERVIDOR = "http://192.168.43.243/";
+   // private static final String RUTASERVIDOR = "http://192.168.43.243/";
 
 
     public static String getRUTASERVIDOR() {

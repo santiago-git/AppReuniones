@@ -12,14 +12,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -31,9 +30,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import santiago.appreuniones.R;
-import santiago.appreuniones.adapter.ListAdapter;
+import santiago.appreuniones.adapter.AdaptadorReuniones;
 import santiago.appreuniones.dao.ReunionService;
-import santiago.appreuniones.dao.UsuarioService;
 import santiago.appreuniones.dto.Constantes;
 import santiago.appreuniones.dto.Reunion;
 import santiago.appreuniones.dto.Usuario;
@@ -51,11 +49,11 @@ public class MisReuniones extends Fragment {
     }
 
     View view;
-    List<Reunion> reuniones;
+    List<Reunion> lreuniones;
     Usuario usuario;
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private AdaptadorReuniones mAdapter;
     private LinearLayoutManager mLayoutManager;
 
     @Override
@@ -79,9 +77,47 @@ public class MisReuniones extends Fragment {
             }
         });
 
+        //setHasOptionsMenu(true);
+
+
+
         return view;
 
     }
+
+    /*@Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_busqueda, menu);
+
+
+        MenuItem item=menu.findItem(R.id.input_busqueda);
+        SearchView searchView= (SearchView) item.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+
+            List<Reunion> lreunionesCopia;
+            @Override
+            public boolean onQueryTextChange(String txt_filtro) {
+                txt_filtro = txt_filtro.toLowerCase();
+
+                if(lreuniones!=null){
+                    //mAdapter.removerItem(0);
+                }else{
+                    System.out.println("ES NULOOO");
+                }
+
+                return true;
+
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }*/
 
 
 
@@ -99,17 +135,28 @@ public class MisReuniones extends Fragment {
         DividerItemDecoration itemDecoration=new DividerItemDecoration(getContext(), mLayoutManager.getOrientation());
 
         // specify an adapter (see also next example)
-        mAdapter = new ListAdapter(reuniones);
+        mAdapter = new AdaptadorReuniones(lreuniones);
 
         mRecyclerView.addItemDecoration(itemDecoration);
         mRecyclerView.setAdapter(mAdapter);
+
+
+
+        mAdapter.setOnclickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Reunion reunionSeleccionada=lreuniones.get(mRecyclerView.getChildAdapterPosition(v));
+
+                Intent intent = new Intent(getActivity(), DetallesReunionActivity.class);
+                intent.putExtra("objeto", reunionSeleccionada);
+                startActivity(intent);
+            }
+        });
     }
 
 
     private void cagarLista() {
-
         Constantes c=new Constantes();
-
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(c.getRUTASERVIDOR())
@@ -122,13 +169,14 @@ public class MisReuniones extends Fragment {
         call.enqueue(new Callback<List<Reunion>>() {
             @Override
             public void onResponse(Call<List<Reunion>> call, Response<List<Reunion>> response) {
-                System.out.println(response);
+                //System.out.println(response);
                 if(response.code()==200){
-                    reuniones=response.body();
+                    lreuniones=response.body();
                     //Log.i("Resp", response.body().toString());
                     cargarReciclerView();
                 }else{
                     Toast.makeText(getActivity(), "Fallo en el servidor", Toast.LENGTH_SHORT).show();
+                    System.out.println(response.body());
                 }
 
             }
@@ -142,7 +190,7 @@ public class MisReuniones extends Fragment {
     }
 
     private Usuario obtenerSesion() {
-        System.out.println("Sesión");
+        //System.out.println("Sesión");
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         Gson gson = new Gson(); //Instancia Gson.
         String json = prefs.getString("usuario", "");

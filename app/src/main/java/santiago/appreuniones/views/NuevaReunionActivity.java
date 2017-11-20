@@ -56,7 +56,6 @@ public class NuevaReunionActivity extends AppCompatActivity {
                 r.setOwner(usuario.getId());
 
                 java.util.Date fecha = new Date();
-                System.out.println (fecha);
 
                 Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 r.setFecha(formatter.format(fecha));

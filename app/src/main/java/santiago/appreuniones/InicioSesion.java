@@ -50,9 +50,9 @@ public class InicioSesion extends AppCompatActivity{
                 u.setCorreo(mEmailView.getText().toString().trim());
                 u.setContrasena(mPasswordView.getText().toString().trim());
 
-                //validarUsuario(u);
-                Intent intent = new Intent(InicioSesion.this, Principal.class);
-                startActivity(intent);
+                validarUsuario(u);
+                //Intent intent = new Intent(InicioSesion.this, Principal.class);
+                //startActivity(intent);
             }
         });
     }

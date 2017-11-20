@@ -1,12 +1,13 @@
 package santiago.appreuniones.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by roms_ on 22/10/2017.
  */
 
-public class Reunion {
+public class Reunion implements Serializable{
     private int id;
     private String nombre;
     private int owner;

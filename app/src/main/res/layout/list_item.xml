@@ -32,8 +32,4 @@
                 android:layout_marginRight="10dp"/>
         </LinearLayout>
 
-
-
-
-
 </android.support.constraint.ConstraintLayout>
